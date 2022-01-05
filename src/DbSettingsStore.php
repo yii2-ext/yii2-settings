@@ -1,9 +1,9 @@
 <?php
 /*
- * @copyright 2019-2021 Dicr http://dicr.org
+ * @copyright 2019-2022 Dicr http://dicr.org
  * @author Igor A Tarasov <develop@dicr.org>
  * @license GPL-3.0-or-later
- * @version 14.05.21 23:10:30
+ * @version 05.01.22 03:22:33
  */
 
 declare(strict_types = 1);
@@ -14,7 +14,6 @@ use Yii;
 use yii\base\Component;
 use yii\base\Exception;
 use yii\base\InvalidConfigException;
-use yii\base\NotSupportedException;
 use yii\db\Connection;
 use yii\db\Query;
 use yii\db\Schema;
@@ -40,7 +39,7 @@ class DbSettingsStore extends Component implements SettingsStore
     /** @var string кодирование значения через serialize, объекты сохраняются/восстанавливаются целиком */
     public const FORMAT_SERIALIZE = 'serialize';
 
-    /** @var array форматы кодирования значения */
+    /** @var string[] форматы кодирования значения */
     public const FORMATS = [
         self::FORMAT_STRING => 'String',
         self::FORMAT_JSON => 'JSON',
@@ -48,19 +47,19 @@ class DbSettingsStore extends Component implements SettingsStore
     ];
 
     /** @var string формат кодирования поля значения */
-    public $format = self::FORMAT_JSON;
+    public string $format = self::FORMAT_JSON;
 
-    /** @var Connection база данных */
-    public $db = 'db';
+    /** @var Connection|string база данных */
+    public Connection|string $db = 'db';
 
     /** @var string имя таблицы в базе данных */
-    public $tableName = '{{settings}}';
+    public string $tableName = '{{settings}}';
 
     /**
      * {@inheritDoc}
      * @throws Exception
      */
-    public function init() : void
+    public function init(): void
     {
         $this->db = Instance::ensure($this->db, Connection::class);
 
@@ -78,10 +77,9 @@ class DbSettingsStore extends Component implements SettingsStore
     /**
      * Инициализирует базу данных (создает таблицу).
      *
-     * @throws NotSupportedException
      * @throws Exception
      */
-    protected function initDatabase() : void
+    protected function initDatabase(): void
     {
         $schema = $this->db->getSchema();
 
@@ -106,25 +104,15 @@ class DbSettingsStore extends Component implements SettingsStore
      * @param mixed $value значение
      * @return string строковое значение
      */
-    protected function encodeValue($value) : string
+    protected function encodeValue(mixed $value): string
     {
         try {
-            switch ($this->format) {
-                case self::FORMAT_STRING:
-                    $encoded = (string)$value;
-                    break;
-
-                case self::FORMAT_JSON:
-                    $encoded = Json::encode($value);
-                    break;
-
-                case self::FORMAT_SERIALIZE:
-                    $encoded = serialize($value);
-                    break;
-
-                default:
-                    throw new InvalidConfigException('неизвестный format: ' . $this->format);
-            }
+            $encoded = match ($this->format) {
+                self::FORMAT_STRING => (string)$value,
+                self::FORMAT_JSON => Json::encode($value),
+                self::FORMAT_SERIALIZE => serialize($value),
+                default => throw new InvalidConfigException('неизвестный format: ' . $this->format),
+            };
         } catch (Throwable $ex) {
             Yii::error($ex, __METHOD__);
             $encoded = (string)$value;
@@ -139,31 +127,20 @@ class DbSettingsStore extends Component implements SettingsStore
      * @param ?string $value
      * @return mixed
      */
-    protected function decodeValue(?string $value)
+    protected function decodeValue(?string $value): mixed
     {
         $decoded = null;
 
         if ($value !== '' && $value !== null) {
             try {
-                switch ($this->format) {
-                    case self::FORMAT_STRING:
-                        $decoded = $value;
-                        break;
-
-                    case self::FORMAT_JSON:
-                        $decoded = Json::decode($value);
-                        break;
-
-                    case self::FORMAT_SERIALIZE:
-                        $decoded = unserialize($value, [
-                            'allowed_classes' => true
-                        ]);
-
-                        break;
-
-                    default:
-                        throw new InvalidConfigException('неизвестный формат: ' . $this->format);
-                }
+                $decoded = match ($this->format) {
+                    self::FORMAT_STRING => $value,
+                    self::FORMAT_JSON => Json::decode($value),
+                    self::FORMAT_SERIALIZE => unserialize($value, [
+                        'allowed_classes' => true
+                    ]),
+                    default => throw new InvalidConfigException('неизвестный формат: ' . $this->format),
+                };
             } catch (Throwable $ex) {
                 Yii::warning($ex, __METHOD__);
                 $decoded = $value;
@@ -176,7 +153,7 @@ class DbSettingsStore extends Component implements SettingsStore
     /**
      * {@inheritDoc}
      */
-    public function get(string $module, string $name = null, $default = null)
+    public function get(string $module, string $name = null, mixed $default = null): mixed
     {
         $query = (new Query())->select('value')
             ->from($this->tableName)
@@ -210,7 +187,7 @@ class DbSettingsStore extends Component implements SettingsStore
     /**
      * {@inheritDoc}
      */
-    public function set(string $module, $name, $value = null) : SettingsStore
+    public function set(string $module, array|string $name, mixed $value = null): static
     {
         foreach (is_array($name) ? $name : [$name => $value] as $key => $val) {
             if ($val === null || $val === '') {
@@ -236,7 +213,7 @@ class DbSettingsStore extends Component implements SettingsStore
     /**
      * {@inheritDoc}
      */
-    public function delete(string $module, string $name = null) : SettingsStore
+    public function delete(string $module, string $name = null): static
     {
         $conds = ['module' => $module];
 

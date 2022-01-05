@@ -1,9 +1,9 @@
 <?php
-/**
- * @copyright 2019-2020 Dicr http://dicr.org
+/*
+ * @copyright 2019-2022 Dicr http://dicr.org
  * @author Igor A Tarasov <develop@dicr.org>
- * @license proprietary
- * @version 07.02.20 01:43:14
+ * @license GPL-3.0-or-later
+ * @version 05.01.22 03:22:20
  */
 
 declare(strict_types = 1);
@@ -24,26 +24,26 @@ interface SettingsStore
      * @param string|null $name название настройки
      *  Если пустое, то возвращает ассоциативный массив всех настроек модуля.
      *
-     * @param mixed $default значение по-умолчанию.
+     * @param mixed|null $default значение по-умолчанию.
      *  Если name задано, то значение настройки, иначе ассоциативный массив значений по-умолчанию.
      *
      * @return mixed если name задан то значение настройки, иначе ассоциативный массив всех настроек модуля
      * @throws Exception
      *
      */
-    public function get(string $module, string $name = null, $default = null);
+    public function get(string $module, string $name = null, mixed $default = null): mixed;
 
     /**
      * Сохраняет значение настройки/настроек.
      * Если значение пустое, то удаляет его.
      *
      * @param string $module название модуля/модели
-     * @param string|array $name название параметра или ассоциативный массив параметр => значение
-     * @param mixed $value значение если name как скаляр
+     * @param array|string $name название параметра или ассоциативный массив параметр => значение
+     * @param mixed|null $value значение если name как скаляр
      * @return $this
      * @throws Exception
      */
-    public function set(string $module, $name, $value = null) : self;
+    public function set(string $module, array|string $name, mixed $value = null): static;
 
     /**
      * Удалить значение.
@@ -55,5 +55,5 @@ interface SettingsStore
      * @return $this
      * @throws Exception
      */
-    public function delete(string $module, string $name = null) : self;
+    public function delete(string $module, ?string $name = null): static;
 }

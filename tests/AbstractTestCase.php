@@ -1,9 +1,9 @@
 <?php
-/**
- * @copyright 2019-2020 Dicr http://dicr.org
+/*
+ * @copyright 2019-2022 Dicr http://dicr.org
  * @author Igor A Tarasov <develop@dicr.org>
- * @license proprietary
- * @version 07.02.20 03:37:41
+ * @license GPL-3.0-or-later
+ * @version 05.01.22 03:26:56
  */
 
 declare(strict_types = 1);
@@ -18,7 +18,7 @@ use yii\base\Exception;
 abstract class AbstractTestCase extends TestCase
 {
     /** @var string файл тестоа */
-    protected static $filename = __DIR__ . '/test.dat';
+    protected static string $filename = __DIR__ . '/test.dat';
 
     /**
      * Удаляет файлы данных

@@ -1,9 +1,9 @@
 <?php
 /*
- * @copyright 2019-2021 Dicr http://dicr.org
+ * @copyright 2019-2022 Dicr http://dicr.org
  * @author Igor A Tarasov <develop@dicr.org>
  * @license GPL-3.0-or-later
- * @version 14.05.21 23:13:37
+ * @version 05.01.22 03:27:01
  */
 
 declare(strict_types = 1);
@@ -26,7 +26,6 @@ class PhpSettingsStore extends FileSettingsStore
         $settings = [];
 
         if (file_exists($this->filename)) {
-            /** @noinspection PhpIncludeInspection */
             $settings = include($this->filename);
             if (! is_array($settings)) {
                 throw new Exception('Ошибка загрузка файла: ' . $this->filename);
@@ -39,7 +38,7 @@ class PhpSettingsStore extends FileSettingsStore
     /**
      * @inheritDoc
      */
-    protected function saveFile(array $settings): FileSettingsStore
+    protected function saveFile(array $settings): static
     {
         $content = '<?php return ' . var_export($settings, true) . ';';
 

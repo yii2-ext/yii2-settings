@@ -1,9 +1,9 @@
 <?php
 /*
- * @copyright 2019-2021 Dicr http://dicr.org
+ * @copyright 2019-2022 Dicr http://dicr.org
  * @author Igor A Tarasov <develop@dicr.org>
- * @license proprietary
- * @version 01.04.21 05:30:59
+ * @license GPL-3.0-or-later
+ * @version 05.01.22 03:27:17
  */
 
 /** @noinspection PhpComposerExtensionStubsInspection */
@@ -41,7 +41,7 @@ class YamlSettingsStore extends FileSettingsStore
     /**
      * @inheritDoc
      */
-    protected function saveFile(array $settings): FileSettingsStore
+    protected function saveFile(array $settings): static
     {
         if (! yaml_emit_file($this->filename, $settings, YAML_UTF8_ENCODING, YAML_LN_BREAK)) {
             throw new Exception('ошибка сохранения файла: ' . $this->filename);

@@ -1,9 +1,9 @@
 <?php
-/**
- * @copyright 2019-2020 Dicr http://dicr.org
+/*
+ * @copyright 2019-2022 Dicr http://dicr.org
  * @author Igor A Tarasov <develop@dicr.org>
- * @license proprietary
- * @version 07.02.20 03:20:14
+ * @license GPL-3.0-or-later
+ * @version 05.01.22 03:25:56
  */
 
 declare(strict_types = 1);
@@ -28,28 +28,22 @@ class TestModel extends AbstractSettingsModel
         ]
     ];
 
-    /** @var null */
-    public $null;
+    public mixed $null = null;
 
-    /** @var bool */
-    public $boolean;
+    public ?bool $boolean = null;
 
-    /** @var int */
-    public $zero;
+    public ?int $zero = null;
 
-    /** @var $float */
-    public $float;
+    public ?float $float = null;
 
-    /** @var $string */
-    public $string;
+    public ?string $string = null;
 
-    /** @var $array */
-    public $array;
+    public ?array $array = null;
 
     /**
      * @inheritDoc
      */
-    public function rules() : array
+    public function rules(): array
     {
         return [
             [['null', 'boolean', 'zero', 'float', 'string', 'array'], 'safe']

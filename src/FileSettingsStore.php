@@ -1,9 +1,9 @@
 <?php
 /*
- * @copyright 2019-2021 Dicr http://dicr.org
+ * @copyright 2019-2022 Dicr http://dicr.org
  * @author Igor A Tarasov <develop@dicr.org>
  * @license GPL-3.0-or-later
- * @version 14.05.21 23:11:01
+ * @version 05.01.22 03:25:12
  */
 
 declare(strict_types = 1);
@@ -25,7 +25,7 @@ use function is_array;
 abstract class FileSettingsStore extends Component implements SettingsStore
 {
     /** @var string имя файла для сохранения настроек */
-    public $filename;
+    public string $filename;
 
     /**
      * @inheritDoc
@@ -35,7 +35,10 @@ abstract class FileSettingsStore extends Component implements SettingsStore
     {
         parent::init();
 
-        $this->filename = Yii::getAlias($this->filename);
+        if (isset($this->filename)) {
+            $this->filename = Yii::getAlias($this->filename);
+        }
+
         if (empty($this->filename)) {
             throw new InvalidConfigException('filename');
         }
@@ -44,7 +47,7 @@ abstract class FileSettingsStore extends Component implements SettingsStore
     /**
      * @inheritDoc
      */
-    public function get(string $module, string $name = null, $default = null)
+    public function get(string $module, string $name = null, mixed $default = null): mixed
     {
         $settings = $this->data();
         if ($name !== null) {
@@ -57,7 +60,7 @@ abstract class FileSettingsStore extends Component implements SettingsStore
     /**
      * @inheritDoc
      */
-    public function set(string $module, $name, $value = null): SettingsStore
+    public function set(string $module, array|string $name, mixed $value = null): static
     {
         $settings = $this->data();
         $changed = false;
@@ -82,7 +85,7 @@ abstract class FileSettingsStore extends Component implements SettingsStore
     /**
      * @inheritDoc
      */
-    public function delete(string $module, ?string $name = null): SettingsStore
+    public function delete(string $module, ?string $name = null): static
     {
         $settings = $this->data();
         $changed = false;
@@ -119,16 +122,15 @@ abstract class FileSettingsStore extends Component implements SettingsStore
      * @return $this
      * @throws Exception
      */
-    abstract protected function saveFile(array $settings): self;
+    abstract protected function saveFile(array $settings): static;
 
-    /** @var array */
-    private $_data;
+    private array $_data;
 
     /**
      * Получить/установить данные настроек.
      *
      * @param array|null $settings
-     * @return array|array[]
+     * @return array
      * @throws Exception
      */
     protected function data(array $settings = null): array
@@ -136,7 +138,7 @@ abstract class FileSettingsStore extends Component implements SettingsStore
         if ($settings !== null) {
             $this->_data = $settings;
             $this->saveFile($settings);
-        } elseif ($this->_data === null) {
+        } elseif (! isset($this->_data)) {
             $this->_data = $this->loadFile();
         }
 
