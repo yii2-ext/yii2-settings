@@ -1,15 +1,10 @@
 <?php
-/*
- * @copyright 2019-2022 Dicr http://dicr.org
- * @author Igor A Tarasov <develop@dicr.org>
- * @license GPL-3.0-or-later
- * @version 05.01.22 03:25:56
- */
 
-declare(strict_types = 1);
+declare(strict_types=1);
+
 namespace dicr\tests;
 
-use dicr\settings\AbstractSettingsModel;
+use dicr\settings\models\AbstractSettingsModel;
 
 /**
  * Тестовая модель
@@ -41,7 +36,7 @@ class TestModel extends AbstractSettingsModel
     public ?array $array = null;
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function rules(): array
     {

@@ -1,14 +1,8 @@
 <?php
-/*
- * @copyright 2019-2021 Dicr http://dicr.org
- * @author Igor A Tarasov <develop@dicr.org>
- * @license proprietary
- * @version 01.04.21 05:33:20
- */
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
-namespace dicr\settings;
+namespace dicr\settings\models;
 
 use Yii;
 use yii\base\Exception;
@@ -26,11 +20,10 @@ abstract class AbstractSettingsModel extends Model
      * @inheritDoc
      * @throws Exception
      */
-    public function init() : void
+    public function init(): void
     {
         parent::init();
 
-        // загружаем настройки
         $this->loadSettings();
     }
 
@@ -38,32 +31,32 @@ abstract class AbstractSettingsModel extends Model
      * Возвращает хранилище настроек.
      * Для переопределения в дочерних реализациях.
      *
-     * @return SettingsStore
+     * @return \dicr\settings\Settings
      * @throws InvalidConfigException
      */
-    public static function store() : SettingsStore
+    public static function store(): \dicr\settings\Settings
     {
         return Yii::$app->get('settings');
     }
 
     /**
-     * Возвращает название раздела настроек в котором хранятся аттрибуты этой модели.
+     * Возвращает название раздела настроек в котором хранятся атрибуты этой модели.
      *
      * @return string
      */
-    public static function module() : string
+    public static function module(): string
     {
         return static::class;
     }
 
     /**
-     * Загружает настройки из хранилища настроек
+     * Загружает настройки из хранилища настроек.
      *
      * @param bool $safeOnly только безопасные атрибуты
      * @return $this
      * @throws Exception
      */
-    public function loadSettings(bool $safeOnly = true) : AbstractSettingsModel
+    public function loadSettings(bool $safeOnly = true): static
     {
         $store = static::store();
         $module = static::module();
@@ -74,15 +67,15 @@ abstract class AbstractSettingsModel extends Model
     }
 
     /**
-     * Сохраняет модель в хранилище настроек
+     * Сохраняет модель в хранилище настроек.
      *
      * @param bool $validate выполнить валидацию
      * @return bool при ошибке валидации возвращает false
      * @throws Exception
      */
-    public function save(bool $validate = true) : bool
+    public function save(bool $validate = true): bool
     {
-        if ($validate && ! $this->validate()) {
+        if ($validate && !$this->validate()) {
             return false;
         }
 

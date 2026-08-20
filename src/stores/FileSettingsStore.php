@@ -1,35 +1,28 @@
 <?php
-/*
- * @copyright 2019-2022 Dicr http://dicr.org
- * @author Igor A Tarasov <develop@dicr.org>
- * @license GPL-3.0-or-later
- * @version 05.01.22 03:25:12
- */
 
-declare(strict_types = 1);
-namespace dicr\settings;
+declare(strict_types=1);
+
+namespace dicr\settings\stores;
 
 use Yii;
 use yii\base\Component;
 use yii\base\Exception;
 use yii\base\InvalidConfigException;
 
-use function array_merge;
-use function is_array;
-
 /**
- * Настройки, хранимые в файле PHP.
+ * Абстрактное хранилище настроек в файле.
  *
- * @property array[] $settings все значения всех модулей.
+ * @since 5.0.0
  */
-abstract class FileSettingsStore extends Component implements SettingsStore
+abstract class FileSettingsStore extends Component implements SettingsStoreInterface
 {
     /** @var string имя файла для сохранения настроек */
     public string $filename;
 
+    private array $_data = [];
+
     /**
-     * @inheritDoc
-     * @throws InvalidConfigException
+     * {@inheritDoc}
      */
     public function init(): void
     {
@@ -40,25 +33,26 @@ abstract class FileSettingsStore extends Component implements SettingsStore
         }
 
         if (empty($this->filename)) {
-            throw new InvalidConfigException('filename');
+            throw new InvalidConfigException('filename must not be empty');
         }
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function get(string $module, string $name = null, mixed $default = null): mixed
     {
         $settings = $this->data();
+
         if ($name !== null) {
             return $settings[$module][$name] ?? $default;
         }
 
-        return array_merge((array)($default ?: []), $settings[$module] ?? []);
+        return array_merge((array) ($default ?: []), $settings[$module] ?? []);
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function set(string $module, array|string $name, mixed $value = null): static
     {
@@ -83,7 +77,7 @@ abstract class FileSettingsStore extends Component implements SettingsStore
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function delete(string $module, ?string $name = null): static
     {
@@ -110,7 +104,7 @@ abstract class FileSettingsStore extends Component implements SettingsStore
     /**
      * Загружает настройки из файла.
      *
-     * @return array[]
+     * @return array
      * @throws Exception
      */
     abstract protected function loadFile(): array;
@@ -118,27 +112,25 @@ abstract class FileSettingsStore extends Component implements SettingsStore
     /**
      * Сохраняет настройки в файл.
      *
-     * @param array[] $settings
-     * @return $this
+     * @param array $settings
+     * @return static
      * @throws Exception
      */
     abstract protected function saveFile(array $settings): static;
 
-    private array $_data;
-
     /**
-     * Получить/установить данные настроек.
+     * Получает/устанавливает данные настроек.
      *
      * @param array|null $settings
      * @return array
      * @throws Exception
      */
-    protected function data(array $settings = null): array
+    protected function data(?array $settings = null): array
     {
         if ($settings !== null) {
             $this->_data = $settings;
             $this->saveFile($settings);
-        } elseif (! isset($this->_data)) {
+        } elseif (empty($this->_data)) {
             $this->_data = $this->loadFile();
         }
 
