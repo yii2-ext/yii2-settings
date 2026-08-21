@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace dicr\settings;
 
-use Yii;
+use dicr\settings\stores\DbSettingsStore;
+use dicr\settings\stores\SettingsStoreInterface;
 use yii\base\Component;
-use yii\base\InvalidConfigException;
 use yii\di\Instance;
 
 /**
@@ -17,10 +17,10 @@ use yii\di\Instance;
  *
  * @since 5.0.0
  */
-class Settings extends Component implements \dicr\settings\stores\SettingsStoreInterface
+class Settings extends Component implements SettingsStoreInterface
 {
-    /** @var SettingsStoreInterface|string внутреннее хранилище */
-    public SettingsStoreInterface|string $store = DbSettingsStore::class;
+    /** @var SettingsStoreInterface|string|array<string, mixed> внутреннее хранилище */
+    public SettingsStoreInterface|string|array $store = DbSettingsStore::class;
 
     private ?SettingsStoreInterface $_store = null;
 
@@ -31,33 +31,41 @@ class Settings extends Component implements \dicr\settings\stores\SettingsStoreI
     {
         parent::init();
 
-        $this->_store = Instance::ensure($this->store, SettingsStoreInterface::class);
+        /** @var SettingsStoreInterface $store */
+        $store = Instance::ensure($this->store, SettingsStoreInterface::class);
+        $this->_store = $store;
     }
 
     /**
      * Возвращает внутреннее хранилище.
-     *
-     * @return SettingsStoreInterface
      */
     public function getInnerStore(): SettingsStoreInterface
     {
+        if (!$this->_store instanceof SettingsStoreInterface) {
+            /** @var SettingsStoreInterface $store */
+            $store = Instance::ensure($this->store, SettingsStoreInterface::class);
+            $this->_store = $store;
+        }
+
         return $this->_store;
     }
 
     /**
      * {@inheritDoc}
      */
-    public function get(string $module, string $name = null, mixed $default = null): mixed
+    public function get(string $module, ?string $name = null, mixed $default = null): mixed
     {
-        return $this->_store->get($module, $name, $default);
+        return $this->getInnerStore()->get($module, $name, $default);
     }
 
     /**
      * {@inheritDoc}
+     *
+     * @param array<string, mixed>|string $name
      */
     public function set(string $module, array|string $name, mixed $value = null): static
     {
-        $this->_store->set($module, $name, $value);
+        $this->getInnerStore()->set($module, $name, $value);
 
         return $this;
     }
@@ -67,7 +75,7 @@ class Settings extends Component implements \dicr\settings\stores\SettingsStoreI
      */
     public function delete(string $module, ?string $name = null): static
     {
-        $this->_store->delete($module, $name);
+        $this->getInnerStore()->delete($module, $name);
 
         return $this;
     }

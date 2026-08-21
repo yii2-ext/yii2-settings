@@ -26,20 +26,21 @@ class CacheBehavior extends Behavior
 
     /**
      * Возвращает компонент кеша.
-     *
-     * @return CacheInterface|null
      */
     protected function getCache(): ?CacheInterface
     {
-        return Yii::$app->get($this->cacheComponent, false);
+        if (Yii::$app === null) {
+            return null;
+        }
+
+        /** @var CacheInterface|null $cache */
+        $cache = Yii::$app->get($this->cacheComponent, false);
+
+        return $cache;
     }
 
     /**
      * Формирует ключ кеша.
-     *
-     * @param string $module
-     * @param string|null $name
-     * @return string
      */
     protected function getCacheKey(string $module, ?string $name = null): string
     {
@@ -48,15 +49,11 @@ class CacheBehavior extends Behavior
 
     /**
      * Получает значение из кеша.
-     *
-     * @param string $module
-     * @param string|null $name
-     * @return mixed
      */
     public function getFromCache(string $module, ?string $name = null): mixed
     {
         $cache = $this->getCache();
-        if ($cache === null) {
+        if (!$cache instanceof CacheInterface) {
             return null;
         }
 
@@ -67,20 +64,18 @@ class CacheBehavior extends Behavior
     /**
      * Сохраняет значение в кеш.
      *
-     * @param string $module
-     * @param string|array $name
-     * @param mixed $value
+     * @param array<string, mixed>|string $name
      */
     public function setToCache(string $module, string|array $name, mixed $value): void
     {
         $cache = $this->getCache();
-        if ($cache === null) {
+        if (!$cache instanceof CacheInterface) {
             return;
         }
 
         if (is_array($name)) {
             foreach ($name as $k => $v) {
-                $key = $this->getCacheKey($module, $k);
+                $key = $this->getCacheKey($module, (string) $k);
                 $cache->set($key, $v, $this->duration);
             }
         } else {
@@ -91,13 +86,11 @@ class CacheBehavior extends Behavior
 
     /**
      * Очищает кеш модуля.
-     *
-     * @param string $module
      */
     public function clearCache(string $module): void
     {
         $cache = $this->getCache();
-        if ($cache === null) {
+        if (!$cache instanceof CacheInterface) {
             return;
         }
 

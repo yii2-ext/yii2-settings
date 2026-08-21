@@ -22,6 +22,8 @@ class DbSettingsTest extends AbstractTestCase
     {
         parent::setUpBeforeClass();
 
-        Yii::$app->set('settings', new DbSettingsStore());
+        /** @var \yii\base\Application $app */
+        $app = Yii::$app;
+        $app->set('settings', new DbSettingsStore());
     }
 }

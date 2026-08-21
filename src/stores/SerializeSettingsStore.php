@@ -15,6 +15,8 @@ class SerializeSettingsStore extends FileSettingsStore
 {
     /**
      * {@inheritDoc}
+     *
+     * @return array<string, array<string, mixed>>
      */
     protected function loadFile(): array
     {
@@ -34,11 +36,14 @@ class SerializeSettingsStore extends FileSettingsStore
             }
         }
 
+        /** @var array<string, array<string, mixed>> $settings */
         return $settings;
     }
 
     /**
      * {@inheritDoc}
+     *
+     * @param array<string, array<string, mixed>> $settings
      */
     protected function saveFile(array $settings): static
     {

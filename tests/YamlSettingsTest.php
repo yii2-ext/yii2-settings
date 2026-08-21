@@ -22,8 +22,10 @@ class YamlSettingsTest extends AbstractTestCase
     {
         parent::setUpBeforeClass();
 
-        Yii::$app->set('settings', new YamlSettingsStore([
-            'filename' => self::$filename
+        /** @var \yii\base\Application $app */
+        $app = Yii::$app;
+        $app->set('settings', new YamlSettingsStore([
+            'filename' => self::$filename,
         ]));
     }
 }

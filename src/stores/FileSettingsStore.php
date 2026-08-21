@@ -19,6 +19,7 @@ abstract class FileSettingsStore extends Component implements SettingsStoreInter
     /** @var string имя файла для сохранения настроек */
     public string $filename;
 
+    /** @var array<string, array<string, mixed>> */
     private array $_data = [];
 
     /**
@@ -40,7 +41,7 @@ abstract class FileSettingsStore extends Component implements SettingsStoreInter
     /**
      * {@inheritDoc}
      */
-    public function get(string $module, string $name = null, mixed $default = null): mixed
+    public function get(string $module, ?string $name = null, mixed $default = null): mixed
     {
         $settings = $this->data();
 
@@ -53,6 +54,8 @@ abstract class FileSettingsStore extends Component implements SettingsStoreInter
 
     /**
      * {@inheritDoc}
+     *
+     * @param array<string, mixed>|string $name
      */
     public function set(string $module, array|string $name, mixed $value = null): static
     {
@@ -60,11 +63,12 @@ abstract class FileSettingsStore extends Component implements SettingsStoreInter
         $changed = false;
 
         foreach (is_array($name) ? $name : [$name => $value] as $key => $val) {
+            $keyStr = (string) $key;
             if ($val !== null && $val !== '') {
-                $settings[$module][$key] = $val;
+                $settings[$module][$keyStr] = $val;
                 $changed = true;
-            } elseif (isset($settings[$module][$key])) {
-                unset($settings[$module][$key]);
+            } elseif (isset($settings[$module][$keyStr])) {
+                unset($settings[$module][$keyStr]);
                 $changed = true;
             }
         }
@@ -104,7 +108,7 @@ abstract class FileSettingsStore extends Component implements SettingsStoreInter
     /**
      * Загружает настройки из файла.
      *
-     * @return array
+     * @return array<string, array<string, mixed>>
      * @throws Exception
      */
     abstract protected function loadFile(): array;
@@ -112,8 +116,7 @@ abstract class FileSettingsStore extends Component implements SettingsStoreInter
     /**
      * Сохраняет настройки в файл.
      *
-     * @param array $settings
-     * @return static
+     * @param array<string, array<string, mixed>> $settings
      * @throws Exception
      */
     abstract protected function saveFile(array $settings): static;
@@ -121,8 +124,8 @@ abstract class FileSettingsStore extends Component implements SettingsStoreInter
     /**
      * Получает/устанавливает данные настроек.
      *
-     * @param array|null $settings
-     * @return array
+     * @param array<string, array<string, mixed>>|null $settings
+     * @return array<string, array<string, mixed>>
      * @throws Exception
      */
     protected function data(?array $settings = null): array
@@ -130,7 +133,7 @@ abstract class FileSettingsStore extends Component implements SettingsStoreInter
         if ($settings !== null) {
             $this->_data = $settings;
             $this->saveFile($settings);
-        } elseif (empty($this->_data)) {
+        } elseif ($this->_data === []) {
             $this->_data = $this->loadFile();
         }
 

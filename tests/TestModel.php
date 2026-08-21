@@ -11,16 +11,16 @@ use dicr\settings\models\AbstractSettingsModel;
  */
 class TestModel extends AbstractSettingsModel
 {
-    /** @var array набор тестовых данных модели */
-    public const TEST_DATA = [
+    /** @var array<string, mixed> набор тестовых данных модели */
+    public const array TEST_DATA = [
         'null' => null,
         'boolean' => false,
         'zero' => 0,
         'float' => -1.23,
         'string' => "Иванов Иван\nИванович",
         'array' => [
-            1, 2, 'a' => 'b'
-        ]
+            1, 2, 'a' => 'b',
+        ],
     ];
 
     public mixed $null = null;
@@ -33,6 +33,7 @@ class TestModel extends AbstractSettingsModel
 
     public ?string $string = null;
 
+    /** @var array<mixed>|null */
     public ?array $array = null;
 
     /**
@@ -41,7 +42,7 @@ class TestModel extends AbstractSettingsModel
     public function rules(): array
     {
         return [
-            [['null', 'boolean', 'zero', 'float', 'string', 'array'], 'safe']
+            [['null', 'boolean', 'zero', 'float', 'string', 'array'], 'safe'],
         ];
     }
 }

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace dicr\settings;
 
 use Yii;
-use yii\base\Module;
+use yii\base\Module as BaseModule;
 
 /**
  * Модуль настроек приложения.
@@ -15,18 +15,15 @@ use yii\base\Module;
  *
  * @since 5.0.0
  */
-class Module extends Module
+class Module extends BaseModule
 {
-    /** @var string ID модуля по умолчанию */
-    public string $id = 'settings';
-
     /** @var string класс фасада-сервиса */
     public string $settingsClass = Settings::class;
 
     /** @var string класс хранилища */
     public string $storeClass = stores\DbSettingsStore::class;
 
-    /** @var array конфигурация хранилища */
+    /** @var array<string, mixed> конфигурация хранилища */
     public array $storeConfig = [];
 
     private ?Settings $_settings = null;
@@ -38,6 +35,7 @@ class Module extends Module
     {
         parent::init();
 
+        $this->id = 'settings';
         $this->registerComponents();
     }
 
@@ -46,7 +44,7 @@ class Module extends Module
      */
     public function registerComponents(): void
     {
-        if (!Yii::$app->has('settingsStore')) {
+        if (Yii::$app !== null && !Yii::$app->has('settingsStore')) {
             $storeConfig = array_merge(
                 ['class' => $this->storeClass],
                 $this->storeConfig
@@ -54,23 +52,25 @@ class Module extends Module
             Yii::$app->set('settingsStore', $storeConfig);
         }
 
-        if (!Yii::$app->has('settings')) {
+        if (Yii::$app !== null && !Yii::$app->has('settings')) {
+            /** @var object|array<string, mixed> $store */
+            $store = Yii::$app->get('settingsStore');
             Yii::$app->set('settings', [
                 'class' => $this->settingsClass,
-                'store' => Yii::$app->get('settingsStore'),
+                'store' => $store,
             ]);
         }
     }
 
     /**
      * Возвращает фасад-сервис настроек.
-     *
-     * @return Settings
      */
     public function getSettings(): Settings
     {
-        if ($this->_settings === null) {
-            $this->_settings = Yii::$app->get('settings');
+        if (!$this->_settings instanceof Settings) {
+            /** @var Settings $settings */
+            $settings = Yii::$app !== null ? Yii::$app->get('settings') : new Settings();
+            $this->_settings = $settings;
         }
 
         return $this->_settings;
