@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace dicr\settings\models;
 
+use dicr\settings\stores\SettingsStoreInterface;
 use Yii;
 use yii\base\Exception;
 use yii\base\InvalidConfigException;
@@ -31,18 +32,22 @@ abstract class AbstractSettingsModel extends Model
      * Возвращает хранилище настроек.
      * Для переопределения в дочерних реализациях.
      *
-     * @return \dicr\settings\Settings
      * @throws InvalidConfigException
      */
-    public static function store(): \dicr\settings\Settings
+    public static function store(): SettingsStoreInterface
     {
-        return Yii::$app->get('settings');
+        if (Yii::$app === null) {
+            throw new InvalidConfigException('Application is not initialized');
+        }
+
+        /** @var SettingsStoreInterface $settings */
+        $settings = Yii::$app->get('settings');
+
+        return $settings;
     }
 
     /**
      * Возвращает название раздела настроек в котором хранятся атрибуты этой модели.
-     *
-     * @return string
      */
     public static function module(): string
     {
@@ -53,13 +58,13 @@ abstract class AbstractSettingsModel extends Model
      * Загружает настройки из хранилища настроек.
      *
      * @param bool $safeOnly только безопасные атрибуты
-     * @return $this
      * @throws Exception
      */
     public function loadSettings(bool $safeOnly = true): static
     {
         $store = static::store();
         $module = static::module();
+        /** @var array<string, mixed> $values */
         $values = $store->get($module);
         $this->setAttributes($values, $safeOnly);
 

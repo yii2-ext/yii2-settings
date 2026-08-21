@@ -2,3 +2,7 @@
 /runtime/*
 /.phpunit.result.cache
 .idea
+.php-cs-fixer.cache
+.phpunit.cache
+.phpstan.cache
+.rector.cache

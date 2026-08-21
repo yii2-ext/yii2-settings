@@ -16,8 +16,11 @@ class AfterSaveEvent extends Event
     /** @var string имя модуля */
     public string $module = '';
 
-    /** @var string|array название настроек */
-    public string|array $name = '';
+    /**
+     * @var string|array<string, mixed> название настроек
+     * @phpstan-ignore-next-line
+     */
+    public $name = '';
 
     /** @var mixed сохраненное значение */
     public mixed $value = null;

@@ -28,9 +28,6 @@ class LogBehavior extends Behavior
 
     /**
      * Логирует чтение настройки.
-     *
-     * @param string $module
-     * @param string|null $name
      */
     public function logRead(string $module, ?string $name): void
     {
@@ -47,9 +44,7 @@ class LogBehavior extends Behavior
     /**
      * Логирует запись настройки.
      *
-     * @param string $module
-     * @param string|array $name
-     * @param mixed $value
+     * @param array<string, mixed>|string $name
      */
     public function logWrite(string $module, string|array $name, mixed $value): void
     {
@@ -58,16 +53,13 @@ class LogBehavior extends Behavior
         }
 
         Yii::info(
-            "Writing setting: module={$module}, name=" . (is_array($name) ? implode(',', $name) : $name),
+            "Writing setting: module={$module}, name=" . (is_array($name) ? implode(',', array_keys($name)) : $name),
             $this->logCategory
         );
     }
 
     /**
      * Логирует удаление настройки.
-     *
-     * @param string $module
-     * @param string|null $name
      */
     public function logDelete(string $module, ?string $name): void
     {

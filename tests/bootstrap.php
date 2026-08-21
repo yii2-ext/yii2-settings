@@ -1,4 +1,5 @@
 <?php
+
 /*
  * @copyright 2019-2021 Dicr http://dicr.org
  * @author Igor A Tarasov <develop@dicr.org>
@@ -6,7 +7,7 @@
  * @version 14.05.21 23:13:37
  */
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 error_reporting(-1);
 ini_set('display_errors', '1');
@@ -26,14 +27,14 @@ new yii\console\Application([
     'basePath' => dirname(__DIR__),
     'components' => [
         'cache' => [
-            'class' => yii\caching\FileCache::class
+            'class' => yii\caching\FileCache::class,
         ],
         'log' => [
             'targets' => [
                 'file' => [
                     'class' => yii\log\FileTarget::class,
-                    'levels' => ['error', 'warning', 'info', 'trace']
-                ]
+                    'levels' => ['error', 'warning', 'info', 'trace'],
+                ],
             ],
         ],
         'db' => [
@@ -41,6 +42,5 @@ new yii\console\Application([
             'dsn' => 'sqlite::memory:',
         ],
     ],
-    'bootstrap' => ['log']
+    'bootstrap' => ['log'],
 ]);
-

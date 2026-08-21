@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace dicr\settings;
 
-use Yii;
 use yii\base\BootstrapInterface;
 
 /**

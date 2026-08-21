@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace dicr\settings\stores;
 
-use Yii;
 use yii\base\Component;
-use yii\base\Exception;
 use yii\base\InvalidConfigException;
 use yii\db\Connection;
 use yii\db\Query;
@@ -18,37 +16,37 @@ use yii\helpers\Json;
 /**
  * Хранилище настроек в базе данных.
  *
- * @property-read Connection $db
- * @property-read string $tableName
- *
  * @since 5.0.0
  */
 class DbSettingsStore extends Component implements SettingsStoreInterface
 {
-    /** @var string кодирование значения в строку */
-    public const FORMAT_STRING = 'string';
+    /** @var string формат значения: строка */
+    public const string FORMAT_STRING = 'string';
 
-    /** @var string кодирование значения в JSON */
-    public const FORMAT_JSON = 'json';
+    /** @var string формат значения: JSON */
+    public const string FORMAT_JSON = 'json';
 
-    /** @var string кодирование значения через serialize */
-    public const FORMAT_SERIALIZE = 'serialize';
+    /** @var string формат значения: serialize */
+    public const string FORMAT_SERIALIZE = 'serialize';
 
-    /** @var array форматы кодирования */
-    public const FORMATS = [
+    /** @var array<string, string> список поддерживаемых форматов */
+    public const array FORMATS = [
         self::FORMAT_STRING => 'String',
         self::FORMAT_JSON => 'JSON',
         self::FORMAT_SERIALIZE => 'Serialize',
     ];
 
-    /** @var string формат кодирования поля значения */
-    public string $format = self::FORMAT_JSON;
-
-    /** @var Connection|string база данных */
+    /** @var Connection|string компонент подключения к БД */
     public Connection|string $db = 'db';
 
-    /** @var string имя таблицы */
+    /** @var string имя таблицы БД */
     public string $tableName = '{{%settings}}';
+
+    /** @var string формат значения (один из FORMATS) */
+    public string $format = self::FORMAT_JSON;
+
+    /** @var bool автоматически создавать таблицу при отсутствии */
+    public bool $autoCreateTable = true;
 
     /**
      * {@inheritDoc}
@@ -57,26 +55,28 @@ class DbSettingsStore extends Component implements SettingsStoreInterface
     {
         parent::init();
 
-        $this->db = Instance::ensure($this->db, Connection::class);
+        /** @var Connection $db */
+        $db = Instance::ensure($this->db, Connection::class);
+        $this->db = $db;
 
-        if (empty($this->tableName)) {
-            throw new InvalidConfigException('tableName must not be empty');
-        }
-
-        if (!array_key_exists($this->format, self::FORMATS)) {
+        if (!isset(self::FORMATS[$this->format])) {
             throw new InvalidConfigException("Invalid format: {$this->format}");
         }
 
-        $this->initDatabase();
+        if ($this->autoCreateTable) {
+            $this->createTable();
+        }
     }
 
     /**
-     * Инициализирует базу данных (создает таблицу).
-     *
-     * @throws Exception
+     * Создает таблицу БД если она не существует.
      */
-    protected function initDatabase(): void
+    protected function createTable(): void
     {
+        if (!$this->db instanceof Connection) {
+            return;
+        }
+
         $schema = $this->db->getSchema();
 
         if (!in_array($schema->getRawTableName($this->tableName), $schema->tableNames, true)) {
@@ -102,14 +102,19 @@ class DbSettingsStore extends Component implements SettingsStoreInterface
     /**
      * {@inheritDoc}
      */
-    public function get(string $module, string $name = null, mixed $default = null): mixed
+    public function get(string $module, ?string $name = null, mixed $default = null): mixed
     {
+        if (!$this->db instanceof Connection) {
+            return $default;
+        }
+
         $query = (new Query())
             ->select('value')
             ->from($this->tableName)
             ->where(['module' => $module]);
 
         if ($name !== null) {
+            /** @var string|null $value */
             $value = $query
                 ->andWhere(['name' => $name])
                 ->limit(1)
@@ -121,13 +126,16 @@ class DbSettingsStore extends Component implements SettingsStoreInterface
         $query->addSelect('name')
             ->indexBy('name');
 
+        /** @var array<string, string|null> $rawValues */
+        $rawValues = $query->column($this->db);
+
         $values = array_map(
-            fn(string $val) => $this->decodeValue($val),
-            $query->column($this->db)
+            fn(?string $val): mixed => $this->decodeValue($val),
+            $rawValues
         );
 
         if (is_array($default)) {
-            $values = ArrayHelper::merge($default, $values);
+            return ArrayHelper::merge($default, $values);
         }
 
         return $values;
@@ -135,21 +143,28 @@ class DbSettingsStore extends Component implements SettingsStoreInterface
 
     /**
      * {@inheritDoc}
+     *
+     * @param array<string, mixed>|string $name
      */
     public function set(string $module, array|string $name, mixed $value = null): static
     {
+        if (!$this->db instanceof Connection) {
+            return $this;
+        }
+
         foreach (is_array($name) ? $name : [$name => $value] as $key => $val) {
+            $keyStr = (string) $key;
             if ($val === null || $val === '') {
-                $this->delete($module, $key);
+                $this->delete($module, $keyStr);
             } else {
                 $this->db->createCommand()->delete($this->tableName, [
                     'module' => $module,
-                    'name' => $key,
+                    'name' => $keyStr,
                 ])->execute();
 
                 $this->db->createCommand()->insert($this->tableName, [
                     'module' => $module,
-                    'name' => $key,
+                    'name' => $keyStr,
                     'value' => $this->encodeValue($val),
                 ])->execute();
             }
@@ -161,8 +176,12 @@ class DbSettingsStore extends Component implements SettingsStoreInterface
     /**
      * {@inheritDoc}
      */
-    public function delete(string $module, string $name = null): static
+    public function delete(string $module, ?string $name = null): static
     {
+        if (!$this->db instanceof Connection) {
+            return $this;
+        }
+
         $conds = ['module' => $module];
 
         if ($name !== null) {
@@ -180,7 +199,6 @@ class DbSettingsStore extends Component implements SettingsStoreInterface
      * Кодирует значение для сохранения в базу.
      *
      * @param mixed $value значение
-     * @return string
      */
     protected function encodeValue(mixed $value): string
     {
@@ -194,9 +212,6 @@ class DbSettingsStore extends Component implements SettingsStoreInterface
 
     /**
      * Декодирует значение из базы.
-     *
-     * @param string|null $value
-     * @return mixed
      */
     protected function decodeValue(?string $value): mixed
     {
