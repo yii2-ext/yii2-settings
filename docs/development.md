@@ -41,7 +41,7 @@ composer test
 
 ## Project Structure
 
-```
+```text
 yii2-settings/
 ├── src/                          # Source code
 │   ├── Bootstrap.php             # Module bootstrap

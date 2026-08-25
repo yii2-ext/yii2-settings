@@ -28,3 +28,7 @@ MD024:
 # MD026 - Trailing punctuation in heading
 MD026:
   punctuation: ".,;:!。，；：！"
+
+# MD029 - Ordered list item prefix
+MD029:
+  style: "one_or_ordered"

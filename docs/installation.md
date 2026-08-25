@@ -18,7 +18,9 @@ composer require proweb/yii2-settings
 
 ### Post-Installation Setup
 
-After installing the package, Yii2 will automatically detect the extension through its `composer.json` configuration. The module will be registered automatically when you call `Yii::$app->getModule('settings')`.
+After installing the package, Yii2 will automatically detect the extension
+through its `composer.json` configuration. The module will be registered
+automatically when you call `Yii::$app->getModule('settings')`.
 
 ## Configuration
 

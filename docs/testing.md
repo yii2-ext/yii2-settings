@@ -127,7 +127,7 @@ composer check-dependencies
 
 ## Test Structure
 
-```
+```text
 tests/
 ├── AbstractTestCase.php        # Base test class
 ├── DbSettingsTest.php          # Database store tests
