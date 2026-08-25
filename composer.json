@@ -8,7 +8,7 @@
         "yii2",
         "settings"
     ],
-    "homepage": "https://gitlab.com/dicr/yii2-settings",
+    "homepage": "https://github.com/yii2-ext/yii2-settings",
     "authors": [
         {
             "name": "Igor Tarasov",
@@ -18,7 +18,8 @@
         }
     ],
     "support": {
-        "source": "https://gitlab.com/dicr/yii2-settings.git"
+        "source": "https://github.com/yii2-ext/yii2-settings.git",
+        "issues": "https://github.com/yii2-ext/yii2-settings/issues"
     },
     "autoload": {
         "psr-4": {
@@ -46,14 +47,21 @@
         "phpstan/phpstan": "^2.0",
         "yiisoft/yii2-coding-standards": "^3.0",
         "phpstan/phpstan-phpunit": "^2.0",
+        "phpstan/phpstan-strict-rules": "^2.0.3",
         "friendsofphp/php-cs-fixer": "^3.60",
-        "rector/rector": "^2.0"
+        "rector/rector": "^2.0",
+        "infection/infection": "^0.35",
+        "maglnet/composer-require-checker": "^4.1",
+        "php-forge/coding-standard": "^0.3"
     },
     "config": {
         "allow-plugins": {
             "yiisoft/yii2-composer": true,
-            "composer/installers": true
-        }
+            "composer/installers": true,
+            "infection/extension-installer": true,
+            "phpstan/extension-installer": true
+        },
+        "sort-packages": true
     },
     "repositories": [
         {
@@ -63,10 +71,14 @@
     ],
     "scripts": {
         "test": "phpunit",
-        "phpstan": "phpstan analyze",
+        "phpstan": "phpstan analyze --memory-limit=-1",
         "cs-check": "php-cs-fixer check",
         "cs-fix": "php-cs-fixer fix",
         "rector": "rector process --dry-run",
-        "rector-fix": "rector process"
+        "rector-fix": "rector process",
+        "ecs": "ecs --fix",
+        "mutation": "infection --threads=4 --ignore-msi-with-no-mutations --min-msi=100 --min-covered-msi=100",
+        "mutation-static": "infection --threads=4 --ignore-msi-with-no-mutations --min-msi=100 --min-covered-msi=100 --static-analysis-tool=phpstan --static-analysis-tool-options='--memory-limit=-1'",
+        "check-dependencies": "composer-require-checker check"
     }
 }

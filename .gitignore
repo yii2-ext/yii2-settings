@@ -6,3 +6,7 @@
 .phpunit.cache
 .phpstan.cache
 .rector.cache
+.env
+coverage/
+build/
+infection.log

@@ -1,0 +1,53 @@
+# https://git-scm.com/docs/gitattributes
+
+# Auto detect text files and perform LF normalization
+* text=auto
+
+# PHP
+*.php text diff=php
+
+# YAML
+*.yml text
+*.yaml text
+
+# Markdown
+*.md text diff=markdown
+
+# JSON
+*.json text
+
+# Composer
+composer.json text
+composer.lock text
+
+# Config
+.php-cs-fixer.php text
+phpstan.neon text
+phpunit.xml text
+rector.php text
+
+# Docs
+*.html text
+*.css text
+*.js text
+
+# Images
+*.png binary
+*.jpg binary
+*.gif binary
+*.ico binary
+*.svg text
+
+# Archives
+*.gz binary
+*.zip binary
+*.tar.gz binary
+
+# Hide files
+.gitattributes export-ignore
+.gitignore export-ignore
+.editorconfig export-ignore
+.php-cs-fixer.php export-ignore
+phpstan.neon export-ignore
+phpunit.xml export-ignore
+rector.php export-ignore

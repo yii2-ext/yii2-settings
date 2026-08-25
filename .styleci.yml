@@ -1,0 +1,59 @@
+preset: yii2
+
+finder:
+  name:
+    - "*.php"
+  exclude:
+    - "vendor"
+    - "runtime"
+  options:
+    indent-type: space
+    indent-size: 4
+    line-ending: lf
+
+disabled:
+  - alpha_ordered_imports
+  - single_line_comment_style
+  - phpdoc_summary
+  - phpdoc_to_comment
+  - phpdoc_align
+  - phpdoc_separation
+  - phpdoc_no_empty_return
+  - phpdoc_no_package_tag
+  - phpdoc_order
+  - phpdoc_scalar
+  - phpdoc_types_order
+  - phpdoc_var_annotation_correct_order
+  - phpdoc_no_alias_tag
+  - phpdoc_no_access
+  - phpdoc_scalar
+  - phpdoc_tag_type
+  - phpdoc_var_annotation
+  - phpdoc_list_type
+  - phpdoc_array_type
+  - phpdoc_separation
+  - phpdoc_trim
+  - phpdoc_types_order
+  - phpdoc_var_annotation_correct_order
+  - phpdoc_no_empty_return
+  - phpdoc_no_package_tag
+  - phpdoc_order
+  - phpdoc_scalar
+  - phpdoc_tag_type
+  - phpdoc_trim
+  - phpdoc_var_annotation
+  - phpdoc_list_type
+  - phpdoc_array_type
+  - phpdoc_separation
+  - phpdoc_trim
+  - phpdoc_types_order
+  - phpdoc_var_annotation_correct_order
+  - phpdoc_no_empty_return
+  - phpdoc_no_package_tag
+  - phpdoc_order
+  - phpdoc_scalar
+  - phpdoc_tag_type
+  - phpdoc_trim
+  - phpdoc_var_annotation
+  - phpdoc_list_type
+  - phpdoc_array_type

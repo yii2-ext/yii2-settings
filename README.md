@@ -1,11 +1,39 @@
-# dicr/yii2-settings
+# yii2-settings
 
 Модуль для хранения настроек приложения в Yii2.
+
+[![PHPUnit](https://img.shields.io/github/actions/workflow/status/yii2-ext/yii2-settings/build.yml?style=for-the-badge&label=PHPUnit&logo=github)](https://github.com/yii2-ext/yii2-settings/actions/workflows/build.yml)
+[![Mutation Testing](https://img.shields.io/endpoint?style=for-the-badge&url=https%3A%2F%2Fbadge-api.stryker-mutator.io%2Fgithub.com%2Fyii2-ext%2Fyii2-settings%2Fmain)](https://dashboard.stryker-mutator.io/reports/github.com/yii2-ext/yii2-settings/main)
+[![PHPStan](https://img.shields.io/github/actions/workflow/status/yii2-ext/yii2-settings/static.yml?style=for-the-badge&label=PHPStan&logo=github)](https://github.com/yii2-ext/yii2-settings/actions/workflows/static.yml)
+[![Security](https://img.shields.io/github/actions/workflow/status/yii2-ext/yii2-settings/security.yml?style=for-the-badge&label=Security&logo=github)](https://github.com/yii2-ext/yii2-settings/actions/workflows/security.yml)
+
+## Features
+
+- Multiple storage backends (Database, File, PHP, Serialize, YAML)
+- Type-safe settings models
+- Caching support
+- Logging support
+- Events for before/after save
+- Automatic module registration
+- Full test coverage
+
+## Documentation
+
+- [Installation Guide](docs/installation.md)
+- [Configuration Reference](docs/configuration.md)
+- [Usage Examples](docs/examples.md)
+- [Testing Guide](docs/testing.md)
+- [Development Guide](docs/development.md)
+
+## Requirements
+
+- PHP >= 8.3
+- Yii2 >= 2.0.54
 
 ## Установка
 
 ```bash
-composer require dicr/yii2-settings
+composer require proweb/yii2-settings
 ```
 
 ## Быстрый старт
@@ -208,10 +236,14 @@ Yii::$app->on('settings.afterSave', function (AfterSaveEvent $event) {
 Для использования DbSettingsStore необходимо применить миграции:
 
 ```bash
-php yii migrate --migrationPath=@vendor/dicr/yii2-settings/src/migrations
+php yii migrate --migrationPath=@vendor/proweb/yii2-settings/src/migrations
 ```
 
 ## Требования
 
 - PHP >= 8.3
 - Yii2 >= 2.0.54
+
+## License
+
+[GPL-3.0-or-later](LICENSE)

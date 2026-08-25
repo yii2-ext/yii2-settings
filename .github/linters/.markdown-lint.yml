@@ -1,0 +1,30 @@
+# .markdownlint.yml - Markdownlint configuration
+# https://github.com/DavidAnson/markdownlint
+
+# Default state for all rules
+default: true
+
+# MD013 - Line length
+MD013:
+  line_length: 120
+  heading_line_length: 120
+  code_block_line_length: 120
+  code_block: true
+  table: true
+  heading: true
+  strict: false
+
+# MD033 - Inline HTML
+MD033:
+  allowed_elements:
+    - br
+    - details
+    - summary
+
+# MD024 - Multiple headers with the same content
+MD024:
+  siblings_only: true
+
+# MD026 - Trailing punctuation in heading
+MD026:
+  punctuation: ".,;:!。，；：！"
