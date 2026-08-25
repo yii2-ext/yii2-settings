@@ -18,10 +18,10 @@ return [
     'bootstrap' => ['settings'],
     'modules' => [
         'settings' => [
-            'class' => \dicr\settings\Module::class,
-            'storeClass' => \dicr\settings\stores\DbSettingsStore::class,
+            'class' => \proweb\\settings\Module::class,
+            'storeClass' => \proweb\\settings\stores\DbSettingsStore::class,
             'storeConfig' => [
-                'format' => \dicr\settings\stores\DbSettingsStore::FORMAT_JSON,
+                'format' => \proweb\\settings\stores\DbSettingsStore::FORMAT_JSON,
             ],
         ],
     ],
@@ -31,7 +31,7 @@ return [
 ### 2. Создание модели настроек
 
 ```php
-use dicr\settings\models\AbstractSettingsModel;
+use proweb\\settings\models\AbstractSettingsModel;
 
 class SiteSettings extends AbstractSettingsModel
 {
@@ -100,9 +100,9 @@ src/
 Настройки хранятся в таблице базы данных.
 
 ```php
-'storeClass' => \dicr\settings\stores\DbSettingsStore::class,
+'storeClass' => \proweb\\settings\stores\DbSettingsStore::class,
 'storeConfig' => [
-    'format' => \dicr\settings\stores\DbSettingsStore::FORMAT_JSON,
+    'format' => \proweb\\settings\stores\DbSettingsStore::FORMAT_JSON,
     'tableName' => '{{%settings}}',
 ],
 ```
@@ -112,7 +112,7 @@ src/
 Настройки хранятся в PHP-файле.
 
 ```php
-'storeClass' => \dicr\settings\stores\PhpSettingsStore::class,
+'storeClass' => \proweb\\settings\stores\PhpSettingsStore::class,
 'storeConfig' => [
     'filename' => '@app/config/settings.php',
 ],
@@ -123,7 +123,7 @@ src/
 Настройки хранятся в файле через serialize().
 
 ```php
-'storeClass' => \dicr\settings\stores\SerializeSettingsStore::class,
+'storeClass' => \proweb\\settings\stores\SerializeSettingsStore::class,
 'storeConfig' => [
     'filename' => '@app/runtime/settings.ser',
 ],
@@ -134,7 +134,7 @@ src/
 Настройки хранятся в YAML-файле.
 
 ```php
-'storeClass' => \dicr\settings\stores\YamlSettingsStore::class,
+'storeClass' => \proweb\\settings\stores\YamlSettingsStore::class,
 'storeConfig' => [
     'filename' => '@app/config/settings.yml',
 ],
@@ -147,7 +147,7 @@ src/
 Событие перед сохранением настроек.
 
 ```php
-use dicr\settings\events\BeforeSaveEvent;
+use proweb\\settings\events\BeforeSaveEvent;
 
 Yii::$app->on('settings.beforeSave', function (BeforeSaveEvent $event) {
     if ($event->module === 'app' && $event->name === 'title') {
@@ -161,7 +161,7 @@ Yii::$app->on('settings.beforeSave', function (BeforeSaveEvent $event) {
 Событие после сохранения настроек.
 
 ```php
-use dicr\settings\events\AfterSaveEvent;
+use proweb\\settings\events\AfterSaveEvent;
 
 Yii::$app->on('settings.afterSave', function (AfterSaveEvent $event) {
     Yii::info("Setting saved: {$event->module}.{$event->name}");
@@ -178,7 +178,7 @@ Yii::$app->on('settings.afterSave', function (AfterSaveEvent $event) {
 'storeConfig' => [
     'behaviors' => [
         'cache' => [
-            'class' => \dicr\settings\behaviors\CacheBehavior::class,
+            'class' => \proweb\\settings\behaviors\CacheBehavior::class,
             'cacheComponent' => 'cache',
             'duration' => 3600,
         ],
@@ -194,7 +194,7 @@ Yii::$app->on('settings.afterSave', function (AfterSaveEvent $event) {
 'storeConfig' => [
     'behaviors' => [
         'log' => [
-            'class' => \dicr\settings\behaviors\LogBehavior::class,
+            'class' => \proweb\\settings\behaviors\LogBehavior::class,
             'logRead' => false,
             'logWrite' => true,
             'logDelete' => true,

@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace dicr\settings;
+namespace proweb\\settings;
 
-use dicr\settings\stores\DbSettingsStore;
-use dicr\settings\stores\SettingsStoreInterface;
+use proweb\\settings\stores\DbSettingsStore;
+use proweb\\settings\stores\SettingsStoreInterface;
 use yii\base\Component;
 use yii\di\Instance;
 

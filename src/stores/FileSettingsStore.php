@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace dicr\settings\stores;
+namespace proweb\\settings\stores;
 
 use Yii;
 use yii\base\Component;

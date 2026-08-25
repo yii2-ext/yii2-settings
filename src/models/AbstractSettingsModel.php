@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace dicr\settings\models;
+namespace proweb\\settings\models;
 
-use dicr\settings\stores\SettingsStoreInterface;
+use proweb\\settings\stores\SettingsStoreInterface;
 use Yii;
 use yii\base\Exception;
 use yii\base\InvalidConfigException;

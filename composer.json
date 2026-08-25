@@ -1,10 +1,10 @@
 {
-    "name": "dicr/yii2-settings",
+    "name": "proweb/yii2-settings",
     "type": "yii2-extension",
     "license": "GPL-3.0-or-later",
     "description": "Хранение настроек приложения в Yii2",
     "keywords": [
-        "dicr",
+        "proweb",
         "yii2",
         "settings"
     ],
@@ -22,12 +22,12 @@
     },
     "autoload": {
         "psr-4": {
-            "dicr\\settings\\": "src/"
+            "proweb\\settings\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "dicr\\tests\\": "tests/"
+            "proweb\\tests\\": "tests/"
         }
     },
     "minimum-stability": "stable",

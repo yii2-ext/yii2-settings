@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace dicr\settings;
+namespace proweb\\settings;
 
 use yii\base\BootstrapInterface;
 

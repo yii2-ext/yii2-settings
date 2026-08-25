@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace dicr\settings\behaviors;
+namespace proweb\\settings\behaviors;
 
 use Yii;
 use yii\base\Behavior;

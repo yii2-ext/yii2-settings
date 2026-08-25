@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace dicr\tests;
 
-use dicr\settings\stores\PhpSettingsStore;
+use proweb\\settings\stores\PhpSettingsStore;
 use Yii;
 use yii\base\InvalidConfigException;
 

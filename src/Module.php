@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace dicr\settings;
+namespace proweb\\settings;
 
 use Yii;
 use yii\base\Module as BaseModule;

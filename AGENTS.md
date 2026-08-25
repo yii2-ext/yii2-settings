@@ -1,6 +1,6 @@
 # AGENTS.md
 
-Yii2 extension (`dicr/yii2-settings`, PHP >= 8.3). Namespace `dicr\settings` -> `src/`.
+Yii2 extension (`dicr/yii2-settings`, PHP >= 8.3). Namespace `proweb\\settings` -> `src/`.
 
 ## Commands
 

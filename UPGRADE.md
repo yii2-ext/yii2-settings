@@ -4,14 +4,14 @@
 
 ### Breaking Changes
 
-1. **Все классы хранилищ перемещены в `dicr\settings\stores\*`**
+1. **Все классы хранилищ перемещены в `proweb\\settings\stores\*`**
 
    ```php
    // Было (4.x)
-   use dicr\settings\DbSettingsStore;
+   use proweb\\settings\DbSettingsStore;
 
    // Стало (5.x)
-   use dicr\settings\stores\DbSettingsStore;
+   use proweb\\settings\stores\DbSettingsStore;
    ```
 
 2. **Интерфейс SettingsStore переименован и перемещён**
@@ -21,29 +21,29 @@
    class MyStore extends Component implements SettingsStore
 
    // Стало (5.x)
-   class MyStore extends Component implements \dicr\settings\stores\SettingsStoreInterface
+   class MyStore extends Component implements \proweb\\settings\stores\SettingsStoreInterface
    ```
 
-3. **Модель настроек перемещена в `dicr\settings\models\*`**
+3. **Модель настроек перемещена в `proweb\\settings\models\*`**
 
    ```php
    // Было (4.x)
-   use dicr\settings\AbstractSettingsModel;
+   use proweb\\settings\AbstractSettingsModel;
 
    // Стало (5.x)
-   use dicr\settings\models\AbstractSettingsModel;
+   use proweb\\settings\models\AbstractSettingsModel;
    ```
 
 4. **Behaviors и Events перемещены в нижний регистр**
 
    ```php
    // Было (4.x)
-   use dicr\settings\Behaviors\CacheBehavior;
-   use dicr\settings\Events\BeforeSaveEvent;
+   use proweb\\settings\Behaviors\CacheBehavior;
+   use proweb\\settings\Events\BeforeSaveEvent;
 
    // Стало (5.x)
-   use dicr\settings\behaviors\CacheBehavior;
-   use dicr\settings\events\BeforeSaveEvent;
+   use proweb\\settings\behaviors\CacheBehavior;
+   use proweb\\settings\events\BeforeSaveEvent;
    ```
 
 5. **Legacy-интерфейс SettingsStore удалён**
@@ -63,7 +63,7 @@
    $config = [
        'components' => [
            'settings' => [
-               'class' => 'dicr\settings\DbSettingsStore',
+               'class' => 'proweb\\settings\DbSettingsStore',
            ],
        ],
    ];
@@ -73,8 +73,8 @@
        'bootstrap' => ['settings'],
        'modules' => [
            'settings' => [
-               'class' => 'dicr\settings\Module',
-               'storeClass' => 'dicr\settings\stores\DbSettingsStore',
+               'class' => 'proweb\\settings\Module',
+               'storeClass' => 'proweb\\settings\stores\DbSettingsStore',
            ],
        ],
    ];
@@ -113,8 +113,8 @@
    ```
 
 2. Обновите namespace во всех файлах:
-   - `dicr\settings\DbSettingsStore` → `dicr\settings\stores\DbSettingsStore`
-   - `dicr\settings\AbstractSettingsModel` → `dicr\settings\models\AbstractSettingsModel`
+   - `proweb\\settings\DbSettingsStore` → `proweb\\settings\stores\DbSettingsStore`
+   - `proweb\\settings\AbstractSettingsModel` → `proweb\\settings\models\AbstractSettingsModel`
    - и т.д.
 
 3. Обновите конфигурацию приложения:
@@ -123,8 +123,8 @@
        'bootstrap' => ['settings'],
        'modules' => [
            'settings' => [
-               'class' => \dicr\settings\Module::class,
-               'storeClass' => \dicr\settings\stores\DbSettingsStore::class,
+               'class' => \proweb\\settings\Module::class,
+               'storeClass' => \proweb\\settings\stores\DbSettingsStore::class,
            ],
        ],
    ];
