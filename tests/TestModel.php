@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace dicr\tests;
+namespace proweb\tests;
 
-use proweb\\settings\models\AbstractSettingsModel;
+use proweb\settings\models\AbstractSettingsModel;
 
 /**
  * Тестовая модель

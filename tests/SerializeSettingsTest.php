@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace dicr\tests;
+namespace proweb\tests;
 
-use proweb\\settings\stores\SerializeSettingsStore;
+use proweb\settings\stores\SerializeSettingsStore;
 use Yii;
 use yii\base\Exception;
 

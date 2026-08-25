@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace proweb\\settings\events;
+namespace proweb\settings\events;
 
 use yii\base\Event;
 

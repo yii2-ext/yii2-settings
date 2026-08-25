@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace proweb\\settings\migrations;
+namespace proweb\settings\migrations;
 
 use yii\db\Migration;
 

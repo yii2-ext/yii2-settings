@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace dicr\tests;
+namespace proweb\tests;
 
 use PHPUnit\Framework\TestCase;
 use yii\base\Exception;
