@@ -1,5 +1,10 @@
 {
-    "symbol-whitelist": [],
+    "symbol-whitelist": [
+        "yaml_emit_file",
+        "YAML_LN_BREAK",
+        "yaml_parse_file",
+        "YAML_UTF8_ENCODING"
+    ],
     "php-core-extensions": [
         "Core",
         "date",

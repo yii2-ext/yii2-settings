@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+
 - Added CHANGELOG.md file
 - Added LICENSE file (GPL-3.0-or-later)
 - Added .editorconfig for consistent coding styles
@@ -23,6 +24,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Updated composer.json with proper scripts and configuration
 
 ### Changed
+
 - Changed namespace from `dicr\settings` to `proweb\settings`
 - Updated composer.json with new package name and configuration
 - Updated README.md with new documentation links
@@ -30,15 +32,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Updated AGENTS.md with agent-specific instructions
 
 ### Deprecated
+
 - None
 
 ### Removed
+
 - None
 
 ### Fixed
+
 - None
 
 ### Security
+
 - Added security scanning via GitHub Actions
 
 ## [1.0.0] - 2024-01-01
