@@ -191,7 +191,7 @@ class DbSettingsTest extends AbstractTestCase
     {
         $module = $this->getModule();
         $module->set('test.key', 'test.value');
-        
+
         $value = $module->get('test.key');
         $this->assertEquals('test.value', $value);
     }

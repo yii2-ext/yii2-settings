@@ -1,4 +1,5 @@
-/* .codespellrc - Codespell configuration file */
+# .codespellrc - Codespell configuration file
+[codespell]
 ignore-words-list = false
 skip = vendor,runtime,*.lock,*.json
 count = true

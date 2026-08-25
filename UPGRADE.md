@@ -84,10 +84,10 @@
 
    ```json
    {
-       "require": {
-           "php": ">=8.3",
-           "yiisoft/yii2": "^2.0.54|^22"
-       }
+     "require": {
+       "php": ">=8.3",
+       "yiisoft/yii2": "^2.0.54|^22"
+     }
    }
    ```
 
@@ -103,12 +103,13 @@
 ### Порядок обновления
 
 1. Обновите `composer.json`:
+
    ```json
    {
-       "require": {
-           "php": ">=8.3",
-           "yiisoft/yii2": "^2.0.54|^22"
-       }
+     "require": {
+       "php": ">=8.3",
+       "yiisoft/yii2": "^2.0.54|^22"
+     }
    }
    ```
 
@@ -118,6 +119,7 @@
    - и т.д.
 
 3. Обновите конфигурацию приложения:
+
    ```php
    return [
        'bootstrap' => ['settings'],
@@ -135,6 +137,7 @@
    - Обновите типы возвращаемых значений
 
 5. Примените миграции (если используете DbSettingsStore):
+
    ```bash
    php yii migrate --migrationPath=@vendor/dicr/yii2-settings/src/migrations
    ```
