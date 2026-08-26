@@ -46,7 +46,7 @@ Namespace `proweb\settings` -> `src/`.
 - Known gap (do not "fix" silently):
   `events/*` and `behaviors/*` are documented in README
   but never dispatched by `Settings`/stores;
-  see `review-q38-2026-08-21.md` for the full audit.
+  see `TODO.md` for the full audit.
 - Tests build a console `yii\console\Application`
   in `tests/bootstrap.php` (in-memory sqlite +
   FileCache); file stores share `tests/test.dat`,
@@ -67,3 +67,23 @@ Namespace `proweb\settings` -> `src/`.
   real source is GitHub; version constraint
   `^2.0.54|^22` -- don't "correct" these without
   confirmation.
+
+## Upgrade (4.x -> 5.x)
+
+Breaking changes:
+- All stores moved to `proweb\settings\stores\*`
+- `SettingsStore` interface renamed to `SettingsStoreInterface`
+- Models moved to `proweb\settings\models\*`
+- Behaviors/Events moved to lowercase directories
+- Config now via Module (bootstrap + modules), not components
+- PHP >= 8.3, Yii2 >= 2.0.54
+
+## Known gaps (see TODO.md)
+
+- Events (BeforeSaveEvent/AfterSaveEvent) exist but are never dispatched
+- Behaviors (CacheBehavior, LogBehavior) exist but are never wired in
+- CacheBehavior clearCache() bug (stale cache keys)
+- DbSettingsStore::set() bulk operations lack transaction wrapping
+- SerializeSettingsStore uses unserialize with allowed_classes=true
+- Migration schema does not match DbSettingsStore::createTable()
+- Documentation describes non-existent Module properties and methods

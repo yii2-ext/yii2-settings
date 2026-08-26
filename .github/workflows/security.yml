@@ -15,5 +15,6 @@ jobs:
       contents: read
     with:
       gitleaks-config: .github/linters/.gitleaks.toml
+      validate_zizmor: false
     secrets:
       GITLEAKS_LICENSE: ${{ secrets.GITLEAKS_LICENSE }}

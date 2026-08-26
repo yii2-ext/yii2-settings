@@ -253,6 +253,15 @@ Yii::$app->on('settings.afterSave', function (AfterSaveEvent $event) {
 php yii migrate --migrationPath=@vendor/proweb/yii2-settings/src/migrations
 ```
 
+## Известные ограничения
+
+- Events (`BeforeSaveEvent`, `AfterSaveEvent`) определены, но пока не
+  триггерятся фасадом `Settings` (см. TODO.md)
+- Behaviors (`CacheBehavior`, `LogBehavior`) существуют, но пока не
+  подключены к фасаду `Settings`
+- `SerializeSettingsStore` использует `unserialize()` с
+  `allowed_classes = true` (см. TODO.md)
+
 ## Требования
 
 - PHP >= 8.3
