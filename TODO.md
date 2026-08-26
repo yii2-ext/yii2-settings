@@ -1,72 +1,84 @@
 # TODO
 
-Задачи для следующих итераций над yii2-settings.
+Tasks for future iterations on yii2-settings.
 
-## Kriticheskie (blokiruyut integratsiyu)
+## Critical (block integration)
 
-### 1. Events ne vyzyvayutsya
-Klassy `BeforeSaveEvent` / `AfterSaveEvent` suschestvuyut, no nigde ne
-triggeryatsya cherez `trigger()`. Trebuyetsya:
-- Dobavit `trigger(self::EVENT_BEFORE_SAVE, $event)` v `Settings::set()`
-  i `AbstractSettingsModel::save()`
-- Dobavit `trigger(self::EVENT_AFTER_SAVE, $event)` posle uspeshnogo
-  sohraneniya
-- V `BeforeSaveEvent` dobavit vozmozhnost otmeny cherez `$event->cancel`
+### 1. Events are not dispatched
 
-### 2. Behaviors ne podklyucheny
-`CacheBehavior` i `LogBehavior` — stabilnye klassy, no Settings facade
-ih ne ispolzuet. Dva varianta:
-- **Variant A:** Settings delegiruet sobytiya cherez Event (rekomenduetsya)
-- **Variant B:** Settings podklyuchaet behaviors cherez Module config
+`BeforeSaveEvent` / `AfterSaveEvent` classes exist but are never triggered
+via `trigger()`. Required:
 
-### 3. Bug v CacheBehavior::clearCache()
-Metod stiraet odin klyuch `settings_{module}`, no `setToCache()` piset
-poimennye klyuchi `settings_{module}_{name}`. Invalidatsiya nepolnaya.
-Nuzhno: `deleteAll("settings_{$module}_*")` ili ispolzovat
-`$cache->delete()` s prefixom.
+- Add `trigger(self::EVENT_BEFORE_SAVE, $event)` in `Settings::set()` and
+  `AbstractSettingsModel::save()`
+- Add `trigger(self::EVENT_AFTER_SAVE, $event)` after successful save
+- In `BeforeSaveEvent`, add cancellation via `$event->cancel`
 
-### 4. DbSettingsStore::set() bez transaktsii
-Bulk-operatsii (N raz delete + insert) ne oberty v transaktsiyu.
-V sluchae oshibki chastichno zapisannye dannye ostanutsya.
-Nuzhno oborot v `Yii::$app->db->transaction()`.
+### 2. Behaviors are not wired in
 
-### 5. Security: unserialize s allowed_classes
-`SerializeSettingsStore::load()` ispolzuet
+`CacheBehavior` and `LogBehavior` are standalone classes but the Settings
+facade does not use them. Two options:
+
+- **Option A:** Settings delegates events via Event (recommended)
+- **Option B:** Settings attaches behaviors via Module config
+
+### 3. Bug in CacheBehavior::clearCache()
+
+Method deletes single key `settings_{module}` but `setToCache()` writes
+per-name keys `settings_{module}_{name}`. Invalidation is incomplete.
+Fix: `deleteAll("settings_{$module}_*")` or use prefix-based `$cache->delete()`.
+
+### 4. DbSettingsStore::set() lacks transaction
+
+Bulk operations (N delete + insert cycles) are not wrapped in a transaction.
+On error, partially written data remains. Fix: wrap in
+`Yii::$app->db->transaction()`.
+
+### 5. Security: unserialize with allowed_classes
+
+`SerializeSettingsStore::load()` uses
 `unserialize($value, ['allowed_classes' => true])`.
-Eto pozvolyaet deserializovat lyubye klassy. Nuzhno:
-- `unserialize($value, ['allowed_classes' => false])` ili
-- Polnostyu peredayti na `igbinary` / `msgpack`
+This allows deserializing arbitrary classes. Fix:
 
-### 6. Nesovpadenie skhemy migratsii i autoCreateTable
-- Migratsiya: `id`, `created_at`, `updated_at`
+- `unserialize($value, ['allowed_classes' => false])` or
+- Migrate fully to `igbinary` / `msgpack`
+
+### 6. Migration schema mismatch
+
+- Migration: `id`, `created_at`, `updated_at`
 - `DbSettingsStore::createTable()`: `module`, `name`, `value`
-  (bez id, bez timestampov)
-Klassy ne sovpadayut. Nuzhno privesti k edinomu standartu.
+  (no id, no timestamps)
 
-## Sredney vazhnosti
+Classes do not match. Must be aligned to a single standard.
 
-### 7. Dokumentatsiya opisyvaet fantomny API
-- `docs/configuration.md` — opisyvaet nesushchestvuyushchie свойства Module
-  (`db`, `cache`, `enableCaching`, `cacheDuration` i t.d.)
-- `docs/examples.md` — ispolzuet `findOne()` (eto ne AR), nesushchestvuyushchie
-  konstanty `EVENT_BEFORE_SAVE`, nekornyye metody Module (`getAllSettings()`,
-  `$module->set()`)
-- Nuzhno pereschitat pod realnoye API (Settings facade, SettingsStoreInterface)
+## Medium priority
 
-### 8. Min覆盖测试ov
-- Kazhdiy store — tolko odin nasledovannyy `testModel()` iz AbstractTestCase
-- Net testov dlya Settings, Module, Bootstrap, Behaviors, Events
-- Nuzhno: minimum po 2-3 testa na kazhdy klass
+### 7. Documentation describes phantom API
 
-### 9. composer.json homepage ukazyvaet na GitLab
-Realnyy istochnik — GitHub. Nuzhno popravit ili udalit.
+- `docs/configuration.md` describes non-existent Module properties
+  (`db`, `cache`, `enableCaching`, `cacheDuration`, etc.)
+- `docs/examples.md` uses `findOne()` (not AR), non-existent constants
+  `EVENT_BEFORE_SAVE`, broken methods (`getAllSettings()`, `$module->set()`)
+- Must be rewritten to match real API (Settings facade, SettingsStoreInterface)
 
-## Nizkoy vazhnosti
+### 8. Minimal test coverage
 
-### 10. AfterSaveEvent nigde ne dispatchitsya
-Dazhe esli podklyuchit events, AfterSaveEvent ne budet generirovatsya
-v AbstractSettingsModel::save() — tam net vyzova trigger().
+- Each store has only one inherited `testModel()` from AbstractTestCase
+- No tests for Settings, Module, Bootstrap, Behaviors, Events
+- Minimum: 2-3 tests per class
 
-### 11. Module ne imeet konfiguratsionnykh option
-Net `storeClass`, net `db`, net `cache` — vse cherez komponent `settings`.
-Module registriruyet komponent, no ne upravlyayet im.
+### 9. composer.json homepage points to GitLab
+
+Real source is GitHub. Fix or remove.
+
+## Low priority
+
+### 10. AfterSaveEvent is never dispatched
+
+Even if events are wired, AfterSaveEvent will not be generated in
+`AbstractSettingsModel::save()` -- there is no `trigger()` call there.
+
+### 11. Module has no configuration options
+
+No `storeClass`, no `db`, no `cache` -- everything via `settings` component.
+Module registers the component but does not manage it.

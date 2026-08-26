@@ -27,6 +27,7 @@ return [
 ```
 
 Module registers two components automatically:
+
 - `settingsStore` -- internal store (`DbSettingsStore` by default)
 - `settings` -- public facade (`Settings` class)
 

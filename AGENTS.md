@@ -71,6 +71,7 @@ Namespace `proweb\settings` -> `src/`.
 ## Upgrade (4.x -> 5.x)
 
 Breaking changes:
+
 - All stores moved to `proweb\settings\stores\*`
 - `SettingsStore` interface renamed to `SettingsStoreInterface`
 - Models moved to `proweb\settings\models\*`

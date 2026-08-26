@@ -2,13 +2,14 @@
 
 ## Module
 
-| Property | Type | Default | Description |
-|---|---|---|---|
-| `settingsClass` | `string` | `Settings::class` | Facade class |
-| `storeClass` | `string` | `DbSettingsStore::class` | Store class |
-| `storeConfig` | `array` | `[]` | Store constructor config |
+Properties:
 
-Module registers `settingsStore` + `settings` components in `registerComponents()`.
+- `settingsClass` (string, default `Settings::class`) -- facade class
+- `storeClass` (string, default `DbSettingsStore::class`) -- store class
+- `storeConfig` (array, default `[]`) -- store constructor config
+
+Module registers `settingsStore` + `settings` components in
+`registerComponents()`.
 
 ## SettingsStoreInterface
 
@@ -22,36 +23,33 @@ delete(string $module, ?string $name = null): static;
 
 ## DbSettingsStore
 
-| Property | Type | Default | Description |
-|---|---|---|---|
-| `db` | `Connection\|string` | `'db'` | DB connection |
-| `tableName` | `string` | `'{{%settings}}'` | Table name |
-| `format` | `string` | `'json'` | Value encoding: `string`, `json`, `serialize` |
-| `autoCreateTable` | `bool` | `true` | Create table on init if missing |
+Properties:
 
-Schema: `module VARCHAR NOT NULL`, `name VARCHAR NOT NULL`, `value TEXT`.
-Unique index on `(module, name)`.
+- `db` (Connection|string, default `'db'`) -- DB connection
+- `tableName` (string, default `'{{%settings}}'`) -- table name
+- `format` (string, default `'json'`) -- value encoding: `string`, `json`, `serialize`
+- `autoCreateTable` (bool, default `true`) -- create table on init if missing
+
+Schema: `module VARCHAR NOT NULL`, `name VARCHAR NOT NULL`,
+`value TEXT`. Unique index on `(module, name)`.
 
 ## FileSettingsStore (abstract)
 
-| Property | Type | Default | Description |
-|---|---|---|---|
-| `filename` | `string` | required | File path (supports Yii aliases) |
+Properties:
+
+- `filename` (string, required) -- file path (supports Yii aliases)
 
 ## PhpSettingsStore
 
 Extends `FileSettingsStore`. Stores settings as PHP array return.
-
 Inherits `filename` property.
 
 ## SerializeSettingsStore
 
 Extends `FileSettingsStore`. Stores settings via `serialize()`.
-
 Inherits `filename` property.
 
 ## YamlSettingsStore
 
 Extends `FileSettingsStore`. Stores settings as YAML (requires ext-yaml).
-
 Inherits `filename` property.
