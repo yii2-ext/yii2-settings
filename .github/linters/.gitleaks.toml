@@ -2,14 +2,14 @@
 # https://github.com/gitleaks/gitleaks
 
 [allowlist]
-  description = "Global allowlist"
-  paths = [
-    "vendor",
-    "runtime",
-    "composer.lock",
-    ".git"
-  ]
-  regexes = [
-    "test_.*",
-    "example_.*"
-  ]
+    description = "Global allowlist"
+    paths = [
+        "vendor",
+        "runtime",
+        "composer.lock",
+        ".git"
+    ]
+    regexes = [
+        "test_.*",
+        "example_.*"
+    ]

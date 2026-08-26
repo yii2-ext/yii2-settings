@@ -8,11 +8,14 @@
 [![Security][badge-security]][link-security]
 
 <!-- markdownlint-disable MD013 -->
+
 [badge-phpunit]: https://img.shields.io/github/actions/workflow/status/yii2-ext/yii2-settings/build.yml?style=for-the-badge&label=PHPUnit&logo=github
 [badge-mutation]: https://img.shields.io/endpoint?style=for-the-badge&url=https%3A%2F%2Fbadge-api.stryker-mutator.io%2Fgithub.com%2Fyii2-ext%2Fyii2-settings%2Fmain
 [badge-phpstan]: https://img.shields.io/github/actions/workflow/status/yii2-ext/yii2-settings/static.yml?style=for-the-badge&label=PHPStan&logo=github
 [badge-security]: https://img.shields.io/github/actions/workflow/status/yii2-ext/yii2-settings/security.yml?style=for-the-badge&label=Security&logo=github
+
 <!-- markdownlint-enable MD013 -->
+
 [link-build]: https://github.com/yii2-ext/yii2-settings/actions/workflows/build.yml
 [link-mutation]: https://dashboard.stryker-mutator.io/reports/github.com/yii2-ext/yii2-settings/main
 [link-static]: https://github.com/yii2-ext/yii2-settings/actions/workflows/static.yml
