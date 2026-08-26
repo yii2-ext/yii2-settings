@@ -21,19 +21,19 @@ git clone https://github.com/yii2-ext/yii2-settings.git
 cd yii2-settings
 ```
 
-2. Install dependencies:
+1. Install dependencies:
 
 ```bash
 composer install
 ```
 
-3. Set up environment:
+1. Set up environment:
 
 ```bash
 cp .env.example .env
 ```
 
-4. Run tests to verify setup:
+1. Run tests to verify setup:
 
 ```bash
 composer test
@@ -174,7 +174,7 @@ class NewSettingsStore implements SettingsStoreInterface
 }
 ```
 
-2. Add tests in `tests/`:
+1. Add tests in `tests/`:
 
 ```php
 <?php
@@ -192,7 +192,7 @@ class NewSettingsStoreTest extends AbstractTestCase
 }
 ```
 
-3. Update documentation in `docs/configuration.md`.
+1. Update documentation in `docs/configuration.md`.
 
 ### Creating a New Behavior
 
@@ -230,9 +230,9 @@ class NewBehavior extends Behavior
 }
 ```
 
-2. Add tests in `tests/`.
+1. Add tests in `tests/`.
 
-3. Update documentation.
+1. Update documentation.
 
 ### Creating a New Model
 
@@ -270,9 +270,9 @@ class NewSettings extends AbstractSettingsModel
 }
 ```
 
-2. Add tests.
+1. Add tests.
 
-3. Update documentation.
+1. Update documentation.
 
 ## Testing
 
@@ -322,8 +322,8 @@ composer rector
 composer test
 ```
 
-2. Update documentation
-3. Update CHANGELOG.md
+1. Update documentation
+1. Update CHANGELOG.md
 
 ### PR Title Format
 

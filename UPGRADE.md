@@ -143,6 +143,7 @@
    ```
 
 6. Проверьте работу приложения:
+
    ```bash
    php yii help
    php yii settings/test

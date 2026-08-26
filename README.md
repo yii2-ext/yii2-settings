@@ -108,7 +108,7 @@ $settings->set('app', ['title' => 'New Title', 'email' => 'admin@example.com']);
 
 ## Структура модуля
 
-```
+```text
 src/
 ├── Module.php                     # yii\base\Module
 ├── Bootstrap.php                  # yii\base\BootstrapInterface
