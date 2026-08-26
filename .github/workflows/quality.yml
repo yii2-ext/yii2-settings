@@ -16,5 +16,6 @@ jobs:
     with:
       codespell-config: .github/linters/.codespellrc
       editorconfig-checker-config: .github/linters/.editorconfig-checker.json
+      editorconfig-checker-exclude: "\\.md$"
       markdownlint-config: .github/linters/.markdown-lint.yml
       yamllint-targets: .github
