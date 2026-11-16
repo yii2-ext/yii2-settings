@@ -1968,29 +1968,32 @@
         },
         {
             "name": "php-forge/coding-standard",
-            "version": "0.3.3",
+            "version": "0.3.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-forge/coding-standard.git",
-                "reference": "e621ca656261916b008c0c3c90b6e5c47539fc4a"
+                "reference": "08f8b884b1e9d72520dae80e152d763bedc2638e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-forge/coding-standard/zipball/e621ca656261916b008c0c3c90b6e5c47539fc4a",
-                "reference": "e621ca656261916b008c0c3c90b6e5c47539fc4a",
+                "url": "https://api.github.com/repos/php-forge/coding-standard/zipball/08f8b884b1e9d72520dae80e152d763bedc2638e",
+                "reference": "08f8b884b1e9d72520dae80e152d763bedc2638e",
                 "shasum": ""
             },
             "require": {
                 "php": ">=8.1",
                 "rector/rector": "^2.4",
-                "symplify/easy-coding-standard": "^13.2"
+                "symplify/easy-coding-standard": "^13.3.2"
             },
             "require-dev": {
-                "php-forge/baseline": "^0.1",
+                "php-forge/baseline": "^0.2",
                 "yii2-extensions/scaffold": "^0.2"
             },
             "type": "library",
             "extra": {
+                "skills": {
+                    "source": "skills"
+                },
                 "scaffold": {
                     "manifest": "scaffold.json",
                     "allowed-packages": [
@@ -2028,9 +2031,9 @@
             ],
             "support": {
                 "issues": "https://github.com/php-forge/coding-standard/issues",
-                "source": "https://github.com/php-forge/coding-standard/tree/0.3.3"
+                "source": "https://github.com/php-forge/coding-standard/tree/0.3.5"
             },
-            "time": "2026-07-05T16:04:18+00:00"
+            "time": "2026-11-13T00:00:24+00:00"
         },
         {
             "name": "php-standard-library/php-standard-library",
@@ -2324,11 +2327,11 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "2.2.9",
+            "version": "2.3.6",
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/13d6b4f347bad222da436580c8304fa6f83e6bd0",
-                "reference": "13d6b4f347bad222da436580c8304fa6f83e6bd0",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/00cedebb76cc82c1592414fa4f616cefdccda16f",
+                "reference": "00cedebb76cc82c1592414fa4f616cefdccda16f",
                 "shasum": ""
             },
             "require": {
@@ -2384,7 +2387,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-08-22T07:38:16+00:00"
+            "time": "2026-11-15T19:58:26+00:00"
         },
         {
             "name": "phpstan/phpstan-phpunit",
@@ -3700,30 +3703,27 @@
         },
         {
             "name": "rector/rector",
-            "version": "2.6.3",
+            "version": "2.8.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/rectorphp/rector.git",
-                "reference": "7e46709996a4b3dc59e1d6ecbb6a38ace335bd58"
+                "reference": "bf2982e3e2b8dfbcb43e5589fa301431cb1e479e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/rectorphp/rector/zipball/7e46709996a4b3dc59e1d6ecbb6a38ace335bd58",
-                "reference": "7e46709996a4b3dc59e1d6ecbb6a38ace335bd58",
+                "url": "https://api.github.com/repos/rectorphp/rector/zipball/bf2982e3e2b8dfbcb43e5589fa301431cb1e479e",
+                "reference": "bf2982e3e2b8dfbcb43e5589fa301431cb1e479e",
                 "shasum": ""
             },
             "require": {
                 "php": "^7.4|^8.0",
-                "phpstan/phpstan": "^2.2.6"
+                "phpstan/phpstan": "^2.3.5"
             },
             "conflict": {
                 "rector/rector-doctrine": "*",
                 "rector/rector-downgrade-php": "*",
                 "rector/rector-phpunit": "*",
                 "rector/rector-symfony": "*"
-            },
-            "suggest": {
-                "ext-dom": "To manipulate phpunit.xml via the custom-rule command"
             },
             "bin": [
                 "bin/rector"
@@ -3748,7 +3748,7 @@
             ],
             "support": {
                 "issues": "https://github.com/rectorphp/rector/issues",
-                "source": "https://github.com/rectorphp/rector/tree/2.6.3"
+                "source": "https://github.com/rectorphp/rector/tree/2.8.5"
             },
             "funding": [
                 {
@@ -3756,7 +3756,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-08-18T22:01:18+00:00"
+            "time": "2026-11-14T23:24:35+00:00"
         },
         {
             "name": "revolt/event-loop",
@@ -8001,16 +8001,16 @@
         },
         {
             "name": "symplify/easy-coding-standard",
-            "version": "13.2.19",
+            "version": "13.3.17",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ecsphp/ecs.git",
-                "reference": "a2af21c295837302b095180659971029a8294200"
+                "reference": "d40557d3d0992de7b4e50625989478900ab282d3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ecsphp/ecs/zipball/a2af21c295837302b095180659971029a8294200",
-                "reference": "a2af21c295837302b095180659971029a8294200",
+                "url": "https://api.github.com/repos/ecsphp/ecs/zipball/d40557d3d0992de7b4e50625989478900ab282d3",
+                "reference": "d40557d3d0992de7b4e50625989478900ab282d3",
                 "shasum": ""
             },
             "require": {
@@ -8020,9 +8020,6 @@
                 "friendsofphp/php-cs-fixer": "<3.95.20",
                 "phpcsstandards/php_codesniffer": "<4.0.4",
                 "symplify/coding-standard": "<13.0"
-            },
-            "suggest": {
-                "ext-dom": "Needed to support checkstyle output format in class CheckstyleOutputFormatter"
             },
             "bin": [
                 "bin/ecs"
@@ -8045,9 +8042,10 @@
                 "static analysis"
             ],
             "support": {
-                "source": "https://github.com/ecsphp/ecs/tree/13.2.19"
+                "issues": "https://github.com/ecsphp/ecs/issues",
+                "source": "https://github.com/ecsphp/ecs/tree/13.3.17"
             },
-            "time": "2026-08-24T17:02:37+00:00"
+            "time": "2026-11-12T18:43:17+00:00"
         },
         {
             "name": "thecodingmachine/safe",
